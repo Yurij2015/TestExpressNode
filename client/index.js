@@ -24,10 +24,12 @@ class PostApi {
     }
 }
 
-document.addEventListener('DOMContentLoader', () => {
+document.addEventListener('DOMContentLoaded', () => {
     PostApi.fetch().then(backendPosts => {
         posts = backendPosts.concat();
-        renderPosts(posts);
+        setTimeout( ()=> {
+            renderPosts(posts);
+        }, 1000);
     })
 });
 
