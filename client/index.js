@@ -16,6 +16,7 @@ const card = post => {
 };
 
 let posts = [];
+let modal;
 const BASE_URL = '/api/post';
 
 class PostApi {
@@ -27,10 +28,9 @@ class PostApi {
 document.addEventListener('DOMContentLoaded', () => {
     PostApi.fetch().then(backendPosts => {
         posts = backendPosts.concat();
-        setTimeout( ()=> {
-            renderPosts(posts);
-        }, 1000);
-    })
+        renderPosts(posts);
+    });
+   modal = M.Modal.init(document.querySelector('.modal'))
 });
 
 function renderPosts(_posts = []) {
