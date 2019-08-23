@@ -7,7 +7,7 @@ const card = post => {
                     <small>${post.date}</small>
                 </div>
                 <div class="card-action">
-                    <button class="btn btn-small red">
+                    <button class="btn btn-small red js-remove" data-id="${post._id}">
                         <i class="material-icons">delete</i>
                     </button>
                 </div>
@@ -34,7 +34,14 @@ class PostApi {
             }
         }).then(res => res.json())
     }
+
+    static remove(id) {
+        return fetch(`${BASE_URL}/${id}`, {
+            method: 'delete'
+        }).then(res=>res.json())
+    }
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     PostApi.fetch().then(backendPosts => {
@@ -43,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     modal = M.Modal.init(document.querySelector('.modal'));
     document.querySelector('#createPost').addEventListener('click', onCreatePost);
+    document.querySelector('#posts').addEventListener('click', onDeletePost);
 });
 
 function renderPosts(_posts = []) {
@@ -71,5 +79,20 @@ function onCreatePost() {
         $title.value = ' ';
         $text.value = ' ';
         M.updateTextFields();
+    }
+}
+
+function onDeletePost() {
+    if (event.target.classList.contains('js-remove')) {
+        const decision = confirm('Вы уверены, что хотите удалить пост?');
+
+        if (decision) {
+            const id = event.target.getAttribute('data-id');
+            PostApi.remove(id).then(()=>{
+                const postIndex = posts.findIndex(post=>post._id === id);
+                posts.splice(postIndex, 1);
+                renderPosts(posts);
+            })
+        }
     }
 }
