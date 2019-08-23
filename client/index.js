@@ -3,8 +3,8 @@ const card = post => {
                 <div class="card z-depth-4">
                 <div class="card-content">
                     <span class="card-title">${post.title}</span>
-                    <p>${post.text}</p>
-                    <small>${post.date}</small>
+                    <p style="white-space: pre-line">${post.text}</p>
+                    <small>${new Date(post.date).toLocaleDateString()}</small>
                 </div>
                 <div class="card-action">
                     <button class="btn btn-small red js-remove" data-id="${post._id}">
